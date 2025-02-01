@@ -1,0 +1,49 @@
+/* src/index.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+/* Définition des couleurs de fond et texte par défaut */
+body {
+  transition: background-color 0.3s, color 0.3s;
+}
+
+body {
+  background-color: #ffffff;  /* Fond clair */
+  color: #333333;             /* Texte sombre */
+}
+
+/* Quand la classe dark est appliquée à html */
+html.dark body {
+  background-color: #1a202c;  /* Fond sombre */
+  color: #e2e8f0;             /* Texte clair */
+}
+
+/* Applique des couleurs spécifiques aux autres éléments si nécessaire */
+html.dark .navbar {
+  background-color: #2d3748;  /* Par exemple, barre de nav sombre */
+}
+
+html body h1 {
+  color: rgb(95, 135, 255);  /* Texte sombre par défaut */
+}
+
+html.dark h1 {
+  color: rgb(147, 197, 253);  /* Texte clair en mode sombre */
+}
+
+html body h2 {
+  color: rgb(255, 255, 255);  /* Texte sombre par défaut */
+}
+
+html.dark h2 {
+  color: rgb(216, 232, 250);  /* Texte clair en mode sombre */
+}
+
+html.dark body {
+  color: #ffffff;  /* Texte clair en mode sombre */
+}
+
+/* Styles supplémentaires pour améliorer l'apparence des pages */
+.page img {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Ombre douce pour l'effet de livre */
+}
