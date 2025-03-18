@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { FaBars, FaTimes } from "react-icons/fa";
@@ -8,18 +8,26 @@ function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const { toggleTheme, theme } = useTheme(); // Récupère le thème et la fonction pour basculer
 
+  // Gérer le focus sur le premier lien lors de l'ouverture du menu mobile
+  useEffect(() => {
+    if (menuOpen) {
+      document.getElementById('menu-link-1').focus(); // Focus sur le premier lien du menu
+    }
+  }, [menuOpen]);
+
   return (
     <nav className={`fixed w-full z-50 ${theme === 'dark' ? 'bg-dark-background text-dark-text' : 'bg-light-background text-light-text'}`}>
-     <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+      <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
         <div className="">
         
-        {/* Bouton pour changer de thème */}
-        <button
-          onClick={toggleTheme}
-          className={`text-white px-4 py-2 rounded-md ${theme === 'dark' ? 'bg-blue-700 hover:bg-blue-500' : 'bg-gray-700 hover:bg-gray-500'}`}
-        >
-          {theme === 'dark' ? 'Mode Clair' : 'Mode Sombre'}
-        </button>
+          {/* Bouton pour changer de thème */}
+          <button
+            onClick={toggleTheme}
+            aria-label="Changer de thème"
+            className={`text-white px-4 py-2 rounded-md ${theme === 'dark' ? 'bg-blue-700 hover:bg-blue-500' : 'bg-gray-700 hover:bg-gray-500'}`}
+          >
+            {theme === 'dark' ? 'Mode Clair' : 'Mode Sombre'}
+          </button>
         
         </div>
 
@@ -27,10 +35,10 @@ function Navbar() {
         <button
           className="md:hidden text-2xl"
           onClick={() => setMenuOpen(!menuOpen)}
+          aria-label={menuOpen ? "Fermer le menu" : "Ouvrir le menu"}
         >
           {menuOpen ? <FaTimes /> : <FaBars />}
         </button>
-
 
         {/* Menu Desktop */}
         <ul className="hidden md:flex space-x-6">
@@ -47,16 +55,51 @@ function Navbar() {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="fixed top-0 left-0 w-full h-screen bg-gray-900 flex flex-col items-center justify-center space-y-6 md:hidden"
+            className={`fixed top-0 left-0 w-full h-screen flex flex-col items-center justify-center space-y-6 md:hidden ${theme === 'dark' ? 'bg-dark-background' : 'bg-light-background'}`}
           >
-            <button className="absolute top-6 right-6 text-3xl text-white hover:text-blue-500" onClick={() => setMenuOpen(false)}>
+            <button 
+              className="absolute top-6 right-6 text-3xl dark:text-white" 
+              onClick={() => setMenuOpen(false)}
+              aria-label="Fermer le menu"
+            >
               <FaTimes />
             </button>
-            <Link to="/" className="text-xl text-white hover:text-blue-500" onClick={() => setMenuOpen(false)}>Accueil</Link>
-            <Link to="/Mangaka" className="text-xl text-white hover:text-blue-500" onClick={() => setMenuOpen(false)}>Mangaka</Link>
-            <Link to="/Illustration" className="text-xl text-white hover:text-blue-500" onClick={() => setMenuOpen(false)}>Illustration</Link>
-            <Link to="/Animation" className="text-xl text-white hover:text-blue-500" onClick={() => setMenuOpen(false)}>Animation</Link>
-            <Link to="/contact" className="text-xl text-white hover:text-blue-500" onClick={() => setMenuOpen(false)}>Contact</Link>
+            <Link 
+              to="/" 
+              id="menu-link-1" 
+              className="text-xl dark:text-white transition duration-200" 
+              onClick={() => setMenuOpen(false)}
+            >
+              Accueil
+            </Link>
+            <Link 
+              to="/Mangaka" 
+              className="text-xl dark:text-white transition duration-200" 
+              onClick={() => setMenuOpen(false)}
+            >
+              Mangaka
+            </Link>
+            <Link 
+              to="/Illustration" 
+              className="text-xl dark:text-white transition duration-200" 
+              onClick={() => setMenuOpen(false)}
+            >
+              Illustration
+            </Link>
+            <Link 
+              to="/Animation" 
+              className="text-xl dark:text-white transition duration-200" 
+              onClick={() => setMenuOpen(false)}
+            >
+              Animation
+            </Link>
+            <Link 
+              to="/contact" 
+              className="text-xl dark:text-white transition duration-200" 
+              onClick={() => setMenuOpen(false)}
+            >
+              Contact
+            </Link>
           </motion.div>
         )}
       </div>

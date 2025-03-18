@@ -4,9 +4,14 @@ import Navbar from "./components/Navbar";
 import HomePage from "./pages/HomePage";
 import Animation from "./pages/Animation";
 import Contact from "./pages/ContactPage";
-import MangakaPage from "./pages/Mangaka"; // Import de la page Mangaka
+import MangakaPage from "./pages/Mangaka";
 import Illustration from "./pages/Illustration";
-import BDReadingPage from "./mangaka/BDReadingPage"; // Import de la page de lecture de BD
+
+// Import des fichiers spécifiques pour chaque manga
+import BD1 from "./mangaka/1";
+import BD2 from "./mangaka/2";
+import BD3 from "./mangaka/3";
+import Footer from "./footer";
 
 function App() {
   return (
@@ -14,12 +19,17 @@ function App() {
       <Navbar />
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/mangaka" element={<MangakaPage />} /> {/* Page de sélection des BD */}
+        <Route path="/mangaka" element={<MangakaPage />} />
         <Route path="/illustration" element={<Illustration />} />
         <Route path="/animation" element={<Animation />} />
         <Route path="/contact" element={<Contact />} />
-        <Route path="/comics/:id" element={<BDReadingPage />} /> {/* Route dynamique pour chaque BD */}
+
+        {/* Routes spécifiques à chaque BD */}
+        <Route path="/mangas/1" element={<BD1 />} />
+        <Route path="/mangas/2" element={<BD2 />} />
+        <Route path="/mangas/3" element={<BD3 />} />
       </Routes>
+      <Footer /> {/* Footer global ici */}
     </Router>
   );
 }

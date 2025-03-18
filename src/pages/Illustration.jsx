@@ -1,82 +1,119 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import '../index.css'; // Assure-toi que ce fichier est correct et accessible
-import Navbar from '../components/Navbar';
+import React, { useEffect, useState } from "react";
+import { motion } from "framer-motion";
+import { Fancybox } from "@fancyapps/ui";
+import "@fancyapps/ui/dist/fancybox/fancybox.css";
+
+// Liste des images à afficher dans la galerie
+const images = [
+  { src: "/assets/illustration/Illustration3.jpg", alt: "Illustration 1", category: "illustrations", date: "2025-02-01" },
+  { src: "/assets/illustration/Illustration17-3.jpg", alt: "Illustration 2", category: "sketches", date: "2022-12-12" },
+  { src: "/assets/illustration/Illustration22-2.jpg", alt: "Illustration 3", category: "paintings", date: "2024-02-04" },
+  { src: "/assets/illustration/Illustration25.jpg", alt: "Illustration 4", category: "illustrations", date: "2023-07-15" },
+  { src: "/assets/illustration/Illustration27-v2.jpg", alt: "Illustration 5", category: "sketches", date: "2022-08-30" },
+];
 
 const Illustration = () => {
+  const [filter, setFilter] = useState("all");
+  const [sortOrder, setSortOrder] = useState("recent"); // "recent" ou "oldest"
+
+  useEffect(() => {
+    Fancybox.bind("[data-fancybox='gallery']");
+  }, []);
+
+  // Filtrer les images par catégorie
+  let filteredImages = images.filter(image => filter === "all" || image.category === filter);
+
+  // Trier les images par date (récent -> ancien ou ancien -> récent)
+  filteredImages = filteredImages.sort((a, b) => {
+    return sortOrder === "recent" 
+      ? new Date(b.date) - new Date(a.date) 
+      : new Date(a.date) - new Date(b.date);
+  });
+
+  // Formater la date
+  const formatDate = (date) => {
+    const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
+    return new Date(date).toLocaleDateString('fr-FR', options);
+  };
+
   return (
-    <div className="home-container min-h-screen bg-light-background dark:bg-dark-background text-light-text dark:text-dark-text">
-      <Navbar />
-      <div className="max-w-screen-xl mx-auto p-8 pt-16">
-        <motion.p
-          className="sub-title"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5 }}
+    <div className="mx-auto px-6 pt-16 min-h-screen bg-light-background dark:bg-dark-background">
+      
+      {/* Titre animé */}
+      <motion.h1
+        className="text-3xl font-semibold text-center mb-6 uppercase tracking-wide pt-12"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, ease: "easeOut" }}
+      >
+        Galerie d'Illustrations
+      </motion.h1>
+
+      {/* Filtres et tri */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
+        className="flex flex-wrap justify-center gap-4 mb-6"
+      >
+        {/* Filtres par catégorie */}
+        {["all", "illustrations", "sketches", "paintings"].map((category) => (
+          <button
+            key={category}
+            className={`px-4 py-1.5 text-sm font-medium uppercase transition-all duration-200 border 
+              ${filter === category 
+                ? "border-blue-600 text-blue-600 shadow-sm" 
+                : "border-gray-400 text-gray-600 hover:border-gray-700 hover:text-gray-800 dark:text-gray-300 dark:border-gray-600 dark:hover:border-gray-400"}
+            `}
+            onClick={() => setFilter(category)}
+          >
+            {category === "all" ? "Tout" : category.charAt(0).toUpperCase() + category.slice(1)}
+          </button>
+        ))}
+
+        {/* Bouton de tri par date */}
+        <button
+          className="px-4 py-1.5 text-sm font-medium uppercase border border-gray-400 text-gray-600 
+            hover:border-gray-700 hover:text-gray-800 dark:text-gray-300 dark:border-gray-600 dark:hover:border-gray-400 transition-all duration-200"
+          onClick={() => setSortOrder(sortOrder === "recent" ? "oldest" : "recent")}
         >
-          <h1 className="text-4xl font-bold mb-4 text-center mt-10 pb-8 uppercase">illustration</h1>
-        </motion.p>
+          Trier par : {sortOrder === "recent" ? "Plus ancien" : "Plus récent"}
+        </button>
+      </motion.div>
 
-        {/* Conteneur flex pour aligner les deux sections */}
-        <div className="flex flex-col md:flex-row gap-6 items-start">
-          
-          {/* Bloc "À propos de moi" */}
-          <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.5, duration: 1.2 }}
-            className="flex-1 w-full md:w-1/2 rounded-md box-border bg-gray-700 dark:bg-gray-800 text-dark-text dark:text-dark-text p-6 px-8"
+      {/* Grille des images */}
+      <motion.div
+        initial="hidden"
+        animate="visible"
+        variants={{
+          hidden: { opacity: 0 },
+          visible: { opacity: 1, transition: { staggerChildren: 0.05 } },
+        }}
+        className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-6 gap-3 pt-3"
+      >
+        {filteredImages.map((image, index) => (
+          <motion.div 
+            key={index}
+            className="overflow-hidden shadow-sm cursor-pointer border border-gray-300 dark:border-gray-700 rounded-sm"
+            variants={{ hidden: { opacity: 0, y: 10 }, visible: { opacity: 1, y: 0 } }}
+            whileHover={{ scale: 1.02 }}
+            transition={{ duration: 0.2 }}
           >
-            <h1 className="text-4xl font-bold mb-4">À propos de moi</h1>
-            <p className="text-lg leading-relaxed mb-4">
-              Bonjour, je me nomme <span className="font-bold text-blue-300">KEVGENGA</span>.
-              Je suis <span className="font-semibold">Mangaka, illustrateur et animateur 2D.</span>
-            </p>
-
-            <div className="mt-4 text-left space-y-3">
-              <p>🎉 <span className="font-semibold text-yellow-400">Gagnant du 1er prix</span> <a className="underline" href="https://www.mangadraft.com/contests/mangadraft-x-xp-pen-2022.fr">au concours Mangadraft 2022</a> (avec la participation de <span className="text-red-400">Manga-io</span> et <span className="text-green-400">XP PEN</span>).</p>
-
-              <p>📖 Autodidacte depuis <span className="text-yellow-300">2010</span>.</p>
-
-              <p>🎨 Formation professionnelle en <span className="font-semibold text-blue-300">
-                dessin et communication graphique</span>.</p>
-
-              <p>💼 Expérience en <span className="text-green-400">freelance</span>.</p>
-            </div>
-
-            <div className="mt-6">
-              <h1 className="text-xl font-semibold">VIMEO (Animations) :</h1>
-              <a
-                href="https://vimeo.com/user86751428"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-blue-300 hover:underline"
-              >
-                https://vimeo.com/user86751428
-              </a>
-            </div>
-
-            <div className="mt-6">
-              <h1 className="text-xl font-semibold ">Logiciels maîtrisés :</h1>
-              <p className="text-gray-300 mt-2">
-                Clip Studio Paint EX, After Effects, Photoshop, Illustrator, InDesign,
-                Flash Animate, OpenToonz, Toon Boom Harmony, Cinema 4D, Blender.
-              </p>
+            <a href={image.src} data-fancybox="gallery" data-caption={image.alt}>
+              <img 
+                src={image.src} 
+                alt={image.alt} 
+                className="w-full h-48 object-cover transition-all duration-300 hover:opacity-85"
+                loading="lazy"
+              />
+            </a>
+            {/* Date sous l'image */}
+            <div className="font-semibold text-center text-sm text-gray-500 dark:text-gray-400 dark:bg-gray-800 py-2 pb-2">
+              {formatDate(image.date)}
             </div>
           </motion.div>
-
-          {/* Bloc Widget Instagram */}
-          <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.8, duration: 1.2 }}
-            className="flex-1 w-full md:w-1/2 rounded-md box-border bg-gray-700 dark:bg-opacity-0 text-dark-text dark:text-dark-text p-6 px-8 flex items-center justify-center"
-          >
-            <div className="elfsight-app-d28a8d13-61ef-48e5-acf8-2adecc403d9e" data-elfsight-app-lazy></div>
-          </motion.div>
-
-        </div>
-      </div>
+        ))}
+      </motion.div>
     </div>
   );
 };

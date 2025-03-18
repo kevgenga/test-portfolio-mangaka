@@ -3,6 +3,13 @@ module.exports = {
   content: [
     "./src/**/*.{html,js,jsx,ts,tsx}", // Assurez-vous que tous les fichiers sont inclus ici
   ],
+
+  safelist: [
+    {
+      pattern: /text-\[\#([0-9a-fA-F]{3,6})\]/, // Autorise les couleurs hexadécimales
+    },
+  ],
+
   theme: {
     extend: {
       colors: {
@@ -16,6 +23,7 @@ module.exports = {
           background: '#1a1a1a', // Exemple de couleur de fond sombre
           text: '#f5f5f5', // Exemple de couleur de texte clair
         },
+        customWhite: "#ffffff", // Couleur personnalisée
       },
     },
   },
