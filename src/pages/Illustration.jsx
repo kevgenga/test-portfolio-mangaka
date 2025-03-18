@@ -5,7 +5,7 @@ import "@fancyapps/ui/dist/fancybox/fancybox.css";
 
 // Liste des images à afficher dans la galerie
 const images = [
-  { src: "/assets/illustration/Illustration3.jpg", alt: "Illustration 1", category: "illustrations", date: "2025-02-01" },
+  { src: "/test-portfolio-mangaka/assets/illustration/Illustration3.jpg", alt: "Illustration 1", category: "illustrations", date: "2025-02-01" },
   { src: "/assets/illustration/Illustration17-3.jpg", alt: "Illustration 2", category: "sketches", date: "2022-12-12" },
   { src: "/assets/illustration/Illustration22-2.jpg", alt: "Illustration 3", category: "paintings", date: "2024-02-04" },
   { src: "/assets/illustration/Illustration25.jpg", alt: "Illustration 4", category: "illustrations", date: "2023-07-15" },
