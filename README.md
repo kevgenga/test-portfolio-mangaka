@@ -1,3 +1,4 @@
-## 🚀 Démo en ligne
-Déployé sur GitHub Pages :
-[Accéder au site](https://kevgenga.github.io/test-portfolio-mangaka/)
+## 🎨 Mon Portfolio Mangaka - En Ligne  
+Découvrez mes œuvres et créations directement en ligne !  
+
+🔗 [Accéder au site](https://kevgenga.github.io/test-portfolio-mangaka/)  
